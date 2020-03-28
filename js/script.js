@@ -41,7 +41,7 @@ refs.gallery.addEventListener('click', onOpenModal);
 refs.closeLightbox.addEventListener('click', onCloseModal);
 refs.overlay.addEventListener('click', onOverlayClick);
 
-let IndexImageOnClick;
+let indexImageOnClick;
 
 function onOpenModal(event) {
   event.preventDefault();
@@ -49,7 +49,7 @@ function onOpenModal(event) {
     return;
   }
   refs.lightbox.classList.add('is-open');
-  IndexImageOnClick = Number(event.target.dataset.index - 1);
+  indexImageOnClick = Number(event.target.dataset.index - 1);
   window.addEventListener('keydown', onKeyboard);
   replacementAttribute(event.target.dataset.source, event.target.alt);
 }
@@ -76,14 +76,18 @@ function onKeyboard(event) {
 }
 
 function onArrow(action) {
-  action === 'ArrowRight' ? (IndexImageOnClick += 1) : (IndexImageOnClick -= 1);
-  if (action === 'ArrowRight' && galleryItems.length === IndexImageOnClick)
-    IndexImageOnClick = 0;
-  if (action === 'ArrowLeft' && IndexImageOnClick < 0)
-    IndexImageOnClick = galleryItems.length - 1;
+  if (action === 'ArrowRight') {
+    indexImageOnClick += 1;
+    if (galleryItems.length === indexImageOnClick) indexImageOnClick = 0;
+  }
+  if (action === 'ArrowLeft') {
+    indexImageOnClick -= 1;
+    if (indexImageOnClick < 0) indexImageOnClick = galleryItems.length - 1;
+  }
+
   replacementAttribute(
-    galleryItems[IndexImageOnClick].original,
-    galleryItems[IndexImageOnClick].description,
+    galleryItems[indexImageOnClick].original,
+    galleryItems[indexImageOnClick].description,
   );
 }
 
